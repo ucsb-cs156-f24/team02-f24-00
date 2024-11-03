@@ -19,6 +19,9 @@ import { hasRole, useCurrentUser } from "main/utils/currentUser";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "react-toastify/dist/ReactToastify.css";
+import HelpRequestIndexPage from "./main/pages/HelpRequest/HelpRequestIndexPage";
+import HelpRequestEditPage from "./main/pages/HelpRequest/HelpRequestEditPage";
+import HelpRequestCreatePage from "./main/pages/HelpRequest/HelpRequestCreatePage";
 
 function App() {
   const { data: currentUser } = useCurrentUser();
@@ -93,6 +96,29 @@ function App() {
               exact
               path="/placeholder/create"
               element={<PlaceholderCreatePage />}
+            />
+          </>
+        )}
+        {hasRole(currentUser, "ROLE_USER") && (
+          <>
+            <Route
+              exact
+              path="/helprequest"
+              element={<HelpRequestIndexPage />}
+            />
+          </>
+        )}
+        {hasRole(currentUser, "ROLE_ADMIN") && (
+          <>
+            <Route
+              exact
+              path="/helprequest/edit/:id"
+              element={<HelpRequestEditPage />}
+            />
+            <Route
+              exact
+              path="/helprequest/create"
+              element={<HelpRequestCreatePage />}
             />
           </>
         )}
