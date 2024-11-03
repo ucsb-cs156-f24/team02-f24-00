@@ -43,6 +43,7 @@ export default function HelpRequestForm({
           data-testid={testIdPrefix + "-requesterEmail"}
           id="requesterEmail"
           type="text"
+          isInvalid={Boolean(errors.requesterEmail)}
           {...register("requesterEmail", {
             required: true,
             pattern: emailRegex,
@@ -60,6 +61,7 @@ export default function HelpRequestForm({
           data-testid={testIdPrefix + "-teamId"}
           id="teamId"
           type="text"
+          isInvalid={Boolean(errors.teamId)}
           {...register("teamId", {
             required: true,
           })}
@@ -76,6 +78,7 @@ export default function HelpRequestForm({
           data-testid={testIdPrefix + "-tableOrBreakoutRoom"}
           id="tableOrBreakoutRoom"
           type="text"
+          isInvalid={Boolean(errors.tableOrBreakoutRoom)}
           {...register("tableOrBreakoutRoom", {
             required: true,
           })}
@@ -90,6 +93,7 @@ export default function HelpRequestForm({
           data-testid={testIdPrefix + "-requestTime"}
           id="requestTime"
           type="datetime-local"
+          isInvalid={Boolean(errors.requestTime)}
           {...register("requestTime", {
             required: true,
           })}
@@ -104,6 +108,7 @@ export default function HelpRequestForm({
           data-testid={testIdPrefix + "-explanation"}
           id="explanation"
           type="text"
+          isInvalid={Boolean(errors.explanation)}
           {...register("explanation", {
             required: true,
           })}
@@ -118,6 +123,7 @@ export default function HelpRequestForm({
           data-testid={testIdPrefix + "-solved"}
           id="solved"
           as="select"
+          isInvalid={Boolean(errors.solved)}
           {...register("solved", {
             required: true,
             minLength: 1,
