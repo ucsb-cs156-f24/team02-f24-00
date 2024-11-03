@@ -68,6 +68,7 @@ describe("UserTable tests", () => {
       "2",
     );
 
+    expect(screen.getByTestId("HelpRequestTable-cell-row-0-col-solved")).toHaveTextContent("true");
     const editButton = screen.queryByTestId(
       `${testId}-cell-row-0-col-Edit-button`,
     );
