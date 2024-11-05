@@ -2,7 +2,7 @@ import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-function CommitForm( { initialContents, submitAction, buttonLabel = "Create" } ) {
+function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
   // Stryker disable all
   const {
     register,
