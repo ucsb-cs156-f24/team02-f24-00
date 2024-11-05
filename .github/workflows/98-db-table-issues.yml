@@ -19,6 +19,14 @@ on:
         type: string
         required: true
         description: "Name of database table entity in camelCase, e.g. RecommendationRequest"
+      frontendUrl:
+        type: string
+        required: true
+        description: "frontend url, typically all lowercase, e.g. recommendationrequest"
+      fixturesPrefix:
+        type: string
+        required: true
+        description: "fixtures prefix, typically camelcase with initial lowercase e.g. recommendationRequest"
       label_color:
         required: true
         type: string
@@ -176,7 +184,7 @@ jobs:
         uses: dacbd/create-issue-action@main
         env:
           name: ${{ inputs.name }} 
-          fixtures: ${{ fromJSON(env.FIXTURES)[matrix.api] }}
+          fixtures: ${{ inputs.fixturesPrefix }}
         with:
           token: ${{ github.token }}
           labels: "${{env.name}}"
@@ -419,7 +427,7 @@ jobs:
         uses: dacbd/create-issue-action@main
         env:
           name: ${{ inputs.name }} 
-          frontend_url: ${{ fromJSON(env.FRONTEND_URL)[matrix.api] }}
+          frontend_url: ${{ inputs.frontendUrl }}
         with:
           token: ${{ github.token }}
           labels: "${{env.name}}"
@@ -540,7 +548,7 @@ jobs:
         uses: dacbd/create-issue-action@main
         env:
           name: ${{ inputs.name }} 
-          frontend_url: ${{ fromJSON(env.FRONTEND_URL)[matrix.api] }}
+          frontend_url: ${{ inputs.frontendUrl }}
 
         with:
           token: ${{ github.token }}
@@ -620,7 +628,7 @@ jobs:
         uses: dacbd/create-issue-action@main
         env:
           name: ${{ inputs.name }} 
-          frontend_url: ${{ fromJSON(env.FRONTEND_URL)[matrix.api] }}
+          frontend_url: ${{ inputs.frontendUrl }}
         with:
           token: ${{ github.token }}
           labels: "${{env.name}}"
@@ -707,7 +715,7 @@ jobs:
         uses: dacbd/create-issue-action@main
         env:
           name: ${{ inputs.name }} 
-          frontend_url: ${{ fromJSON(env.FRONTEND_URL)[matrix.api] }}
+          frontend_url: ${{ inputs.frontendUrl }}
           
         with:
           token: ${{ github.token }}
