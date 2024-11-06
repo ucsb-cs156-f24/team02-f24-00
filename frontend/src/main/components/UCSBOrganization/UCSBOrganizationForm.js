@@ -18,9 +18,6 @@ function UCSBOrganizationForm({ initialContents, submitAction, buttonLabel = "Cr
 
     const testIdPrefix = "UCSBOrganizationForm";
 
-    // Stryker disable next-line Regex
-    const bool_regex = /^(true|false)$/i;
-
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
 
