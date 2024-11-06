@@ -3,18 +3,19 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
+  const defaultValues = initialContents
+    ? {
+        ...initialContents,
+        commitTime: initialContents.commitTime.replace("Z", ""),
+      }
+    : {};
+
   // Stryker disable all
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({
-    defaultValues:
-      {
-        ...initialContents,
-        commitTime: initialContents.commitTime.replace("Z", ""),
-      } || {},
-  });
+  } = useForm({ defaultValues });
   // Stryker restore all
 
   const navigate = useNavigate();
