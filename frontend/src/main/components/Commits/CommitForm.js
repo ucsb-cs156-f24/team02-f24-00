@@ -15,6 +15,14 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
 
   const testIdPrefix = "CommitForm";
 
+  // For explanation, see: https://stackoverflow.com/questions/3143070/javascript-regex-iso-datetime
+  // Note that even this complex regex may still need some tweaks
+
+  // Stryker disable Regex
+  const isodate_regex =
+    /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
+  // Stryker restore Regex
+
   return (
     <Form onSubmit={handleSubmit(submitAction)}>
       {initialContents && (
@@ -64,6 +72,42 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
         />
         <Form.Control.Feedback type="invalid">
           {errors.url?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+
+
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="authorLogin">Author Login</Form.Label>
+        <Form.Control
+          data-testid={testIdPrefix + "-authorLogin"}
+          id="authorLogin"
+          type="text"
+          isInvalid={Boolean(errors.authorLogin)}
+          {...register("authorLogin", {
+            required: "Author Login is required.",
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.authorLogin?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="commitTime">Commit Time (in UTC)</Form.Label>
+        <Form.Control
+          data-testid={testIdPrefix + "-commitTime"}
+          id="commitTime"
+          type="datetime-local"
+          isInvalid={Boolean(errors.commitTime)}
+          {...register("commitTime", {
+            required: true,
+            pattern: isodate_regex,
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.commitTime && "Commit Time is required. "}
         </Form.Control.Feedback>
       </Form.Group>
 
