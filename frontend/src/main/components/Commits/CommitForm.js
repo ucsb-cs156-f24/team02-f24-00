@@ -8,7 +8,13 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({ defaultValues: initialContents || {} });
+  } = useForm({
+    defaultValues:
+      {
+        ...initialContents,
+        commitTime: initialContents.commitTime.replace("Z", ""),
+      } || {},
+  });
   // Stryker restore all
 
   const navigate = useNavigate();
@@ -74,9 +80,6 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
           {errors.url?.message}
         </Form.Control.Feedback>
       </Form.Group>
-
-
-
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="authorLogin">Author Login</Form.Label>
