@@ -75,20 +75,15 @@ function UCSBOrganizationForm({ initialContents, submitAction, buttonLabel = "Cr
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="inactive">Inactive</Form.Label>
-                <Form.Control
+                <Form.Label htmlFor="inactive">inactive</Form.Label>
+                <Form.Select
                     data-testid={testIdPrefix + "-inactive"}
                     id="inactive"
-                    type="text"
-                    isInvalid={Boolean(errors.inactive)}
-                    {...register("inactive", {
-                        required: "Inactive must be true or false.",
-                        pattern: bool_regex
-                    })}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {errors.inactive?.message}
-                </Form.Control.Feedback>
+                    {...register("inactive")}
+                >
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </Form.Select>
             </Form.Group>
 
 

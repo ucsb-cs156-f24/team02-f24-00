@@ -14,7 +14,7 @@ jest.mock('react-router-dom', () => ({
 describe("UCSBOrganization tests", () => {
     const queryClient = new QueryClient();
 
-    const expectedHeaders = ["Organization Code", "Organization Translation Short", "Organization Translation", "Inactive"];
+    const expectedHeaders = ["Organization Code", "Organization Translation Short", "Organization Translation", "inactive"];
     const testId = "UCSBOrganizationForm";
 
     test("renders correctly with no initialContents", async () => {
@@ -89,16 +89,6 @@ describe("UCSBOrganization tests", () => {
         await screen.findByText(/Organization Code is required./);
         expect(screen.getByText(/Organization Translation Short is required./)).toBeInTheDocument();
         expect(screen.getByText(/Organization Translation is required./)).toBeInTheDocument();
-        expect(screen.getByText(/Inactive must be true or false./)).toBeInTheDocument();
-
-        // test inactive is true or false:
-        const inactiveInput = screen.getByTestId(`${testId}-inactive`);
-        fireEvent.change(inactiveInput, { target: { value: "nottrueorfalse" } });
-        fireEvent.click(submitButton);
-
-        await waitFor(() => {
-            expect(screen.getByText(/Inactive must be true or false./)).toBeInTheDocument();
-        });
 
     });
 
