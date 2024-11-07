@@ -5,7 +5,6 @@ import { useBackendMutation } from "main/utils/useBackend";
 import { toast } from "react-toastify";
 
 export default function CommitsCreatePage({ storybook = false }) {
-
   const addZ = (string) => `${string}Z`;
 
   const objectToAxiosParams = (commit) => ({
@@ -15,14 +14,12 @@ export default function CommitsCreatePage({ storybook = false }) {
       message: commit.message,
       url: commit.url,
       authorLogin: commit.authorLogin,
-      commitTime: addZ(commit.commitTime)
+      commitTime: addZ(commit.commitTime),
     },
   });
 
   const onSuccess = (commit) => {
-    toast(
-      `New commit Created - id: ${commit.id} message: ${commit.message}`,
-    );
+    toast(`New commit Created - id: ${commit.id} message: ${commit.message}`);
   };
 
   const mutation = useBackendMutation(
