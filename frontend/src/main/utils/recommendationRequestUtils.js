@@ -14,3 +14,4 @@ export function cellToAxiosParamsDelete(cell) {
     },
   };
 }
+ 
