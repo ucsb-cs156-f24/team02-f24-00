@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import CommitForm, {removeZ} from "main/components/Commits/CommitForm";
+import CommitForm, { removeZ } from "main/components/Commits/CommitForm";
 import { commitFixtures } from "fixtures/commitFixtures";
 
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -14,7 +14,6 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("CommitForm tests", () => {
-
   const queryClient = new QueryClient();
 
   const expectedHeaders = [
@@ -66,9 +65,15 @@ describe("CommitForm tests", () => {
     expect(await screen.findByTestId(`${testId}-id`)).toBeInTheDocument();
     expect(screen.getByText(`Id`)).toBeInTheDocument();
 
-    expect(screen.getByLabelText("Id")).toHaveValue(String(commitFixtures.oneCommit.id));
-    expect(screen.getByLabelText("Url")).toHaveValue(commitFixtures.oneCommit.url);
-    expect(screen.getByLabelText("Message")).toHaveValue(commitFixtures.oneCommit.message);
+    expect(screen.getByLabelText("Id")).toHaveValue(
+      String(commitFixtures.oneCommit.id),
+    );
+    expect(screen.getByLabelText("Url")).toHaveValue(
+      commitFixtures.oneCommit.url,
+    );
+    expect(screen.getByLabelText("Message")).toHaveValue(
+      commitFixtures.oneCommit.message,
+    );
   });
 
   test("that navigate(-1) is called when Cancel is clicked", async () => {

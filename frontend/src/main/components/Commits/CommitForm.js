@@ -10,7 +10,7 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
   const defaultValues = initialContents
     ? {
         ...initialContents,
-        commitTime: removeZ(initialContents.commitTime)
+        commitTime: removeZ(initialContents.commitTime),
       }
     : {};
 
