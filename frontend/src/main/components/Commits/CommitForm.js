@@ -2,11 +2,15 @@ import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
+export function removeZ(myString) {
+  return myString.replace("Z", "");
+}
+
 function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
   const defaultValues = initialContents
     ? {
         ...initialContents,
-        commitTime: initialContents.commitTime.replace("Z", ""),
+        commitTime: removeZ(initialContents.commitTime)
       }
     : {};
 
@@ -69,7 +73,6 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
       <Form.Group className="mb-3">
         <Form.Label htmlFor="url">Url</Form.Label>
         <Form.Control
-          data-testid={testIdPrefix + "-url"}
           id="url"
           type="text"
           isInvalid={Boolean(errors.url)}
@@ -85,7 +88,6 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
       <Form.Group className="mb-3">
         <Form.Label htmlFor="authorLogin">Author Login</Form.Label>
         <Form.Control
-          data-testid={testIdPrefix + "-authorLogin"}
           id="authorLogin"
           type="text"
           isInvalid={Boolean(errors.authorLogin)}
@@ -101,7 +103,6 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
       <Form.Group className="mb-3">
         <Form.Label htmlFor="commitTime">Commit Time (in UTC)</Form.Label>
         <Form.Control
-          data-testid={testIdPrefix + "-commitTime"}
           id="commitTime"
           type="datetime-local"
           isInvalid={Boolean(errors.commitTime)}
@@ -115,9 +116,7 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button type="submit" data-testid={testIdPrefix + "-submit"}>
-        {buttonLabel}
-      </Button>
+      <Button type="submit">{buttonLabel}</Button>
       <Button
         variant="Secondary"
         onClick={() => navigate(-1)}
