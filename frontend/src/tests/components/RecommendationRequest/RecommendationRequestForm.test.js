@@ -185,4 +185,4 @@ describe("RecommendationRequestForm tests", () => {
 
     await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith(-1));
   });
-});
+}); 
