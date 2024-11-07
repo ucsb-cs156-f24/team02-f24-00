@@ -29,8 +29,8 @@ ThreeItemsOrdinaryUser.args = {
 
 export const ThreeItemsAdminUser = Template.bind({});
 ThreeItemsAdminUser.args = {
-    commits: commitFixtures.threeCommits,
-    currentUser: currentUserFixtures.adminUser,
+  commits: commitFixtures.threeCommits,
+  currentUser: currentUserFixtures.adminUser,
 };
 
 ThreeItemsAdminUser.parameters = {
