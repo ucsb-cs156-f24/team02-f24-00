@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
@@ -194,30 +194,21 @@
 <a name='L129'></a><a href='#L129'>129</a>
 <a name='L130'></a><a href='#L130'>130</a>
 <a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L132'></a><a href='#L132'>132</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -229,10 +220,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -331,11 +329,15 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 &nbsp;
+export function removeZ(myString) {
+  return myString.replace("Z", "");
+}
+&nbsp;
 function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
   const defaultValues = initialContents
     ? {
         ...initialContents,
-        commitTime: initialContents.commitTime.replace("Z", ""),
+        commitTime: removeZ(initialContents.commitTime)
       }
     : {};
 &nbsp;
@@ -398,7 +400,6 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
       &lt;Form.Group className="mb-3"&gt;
         &lt;Form.Label htmlFor="url"&gt;Url&lt;/Form.Label&gt;
         &lt;Form.Control
-          data-testid={testIdPrefix + "-url"}
           id="url"
           type="text"
           isInvalid={Boolean(errors.url)}
@@ -414,7 +415,6 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
       &lt;Form.Group className="mb-3"&gt;
         &lt;Form.Label htmlFor="authorLogin"&gt;Author Login&lt;/Form.Label&gt;
         &lt;Form.Control
-          data-testid={testIdPrefix + "-authorLogin"}
           id="authorLogin"
           type="text"
           isInvalid={Boolean(errors.authorLogin)}
@@ -430,7 +430,6 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
       &lt;Form.Group className="mb-3"&gt;
         &lt;Form.Label htmlFor="commitTime"&gt;Commit Time (in UTC)&lt;/Form.Label&gt;
         &lt;Form.Control
-          data-testid={testIdPrefix + "-commitTime"}
           id="commitTime"
           type="datetime-local"
           isInvalid={Boolean(errors.commitTime)}
@@ -444,9 +443,7 @@ function CommitForm({ initialContents, submitAction, buttonLabel = "Create" }) {
         &lt;/Form.Control.Feedback&gt;
       &lt;/Form.Group&gt;
 &nbsp;
-      &lt;Button type="submit" data-testid={testIdPrefix + "-submit"}&gt;
-        {buttonLabel}
-      &lt;/Button&gt;
+      &lt;Button type="submit"&gt;{buttonLabel}&lt;/Button&gt;
       &lt;Button
         variant="Secondary"
         onClick={() =&gt; navigate(-1)}
@@ -466,7 +463,7 @@ export default CommitForm;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-06T00:35:30.540Z
+                at 2024-11-07T03:28:56.738Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
