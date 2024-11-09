@@ -35,7 +35,7 @@ export default function CommitEditPage({ storybook = false }) {
       message: commit.message,
       url: commit.url,
       authorLogin: commit.authorLogin,
-      commitTime: `${commit.commitTime}Z`
+      commitTime: `${commit.commitTime}Z`,
     },
   });
 

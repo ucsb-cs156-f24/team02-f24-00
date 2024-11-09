@@ -36,7 +36,6 @@ jest.mock("react-router-dom", () => {
 });
 
 describe("CommitsEditPage tests", () => {
-
   describe("when the backend doesn't return data", () => {
     const axiosMock = new AxiosMockAdapter(axios);
 
@@ -122,10 +121,14 @@ describe("CommitsEditPage tests", () => {
       expect(idField).toHaveValue("17");
 
       expect(messageField).toBeInTheDocument();
-      expect(messageField).toHaveValue("pc - updated tests for blah controller");
+      expect(messageField).toHaveValue(
+        "pc - updated tests for blah controller",
+      );
 
       expect(urlField).toBeInTheDocument();
-      expect(urlField).toHaveValue("https://github.com/ucsb-cs156-f24/team02-f24-00/commit/fe7825cf06b420552141f587a9499273b6d09916");
+      expect(urlField).toHaveValue(
+        "https://github.com/ucsb-cs156-f24/team02-f24-00/commit/fe7825cf06b420552141f587a9499273b6d09916",
+      );
 
       expect(authorLoginField).toBeInTheDocument();
       expect(authorLoginField).toHaveValue("pconrad");
@@ -139,7 +142,10 @@ describe("CommitsEditPage tests", () => {
         target: { value: "pc - updated tests for blah controller edits" },
       });
       fireEvent.change(urlField, {
-        target: { value: "https://github.com/ucsb-cs156-f24/team02-f24-01/commit/fe7825cf06b420552141f587a9499273b6d09916" },
+        target: {
+          value:
+            "https://github.com/ucsb-cs156-f24/team02-f24-01/commit/fe7825cf06b420552141f587a9499273b6d09916",
+        },
       });
       fireEvent.change(authorLoginField, {
         target: { value: "Division7" },
