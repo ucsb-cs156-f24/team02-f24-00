@@ -19,7 +19,7 @@ env:
 jobs:
 
   # This job checks if the current date is before the END_DATE
-  check-date:
+  check_date:
     name: Check Date
     runs-on: ubuntu-latest
     outputs:
@@ -41,11 +41,11 @@ jobs:
   # The team name is used to find the project ID for the team
   # It does this by extracting the last 6 characters of the repository name
   # Then sets the team name as an output for the next job
-  get-team-name:
+  get_team_name:
     name: Get Team Name 
     runs-on: ubuntu-latest
-    needs: check-date
-    if: needs.check-date.outputs.continue == 'true'
+    needs: check_date
+    if: needs.check_date.outputs.continue == 'true'
     outputs:
       team: ${{ steps.find_team.outputs.team }}
     steps:
@@ -59,11 +59,11 @@ jobs:
   # This job finds the project ID for the team based on the team name
   # It finds the last updated project that contains the team name in the title
   # Then sets the project ID as an output for the next job
-  get-project-id:
+  get_project_id:
     name: Find Last Updated Project ID for Team
     runs-on: ubuntu-latest
-    needs: get-team-name
-    if: needs.check-date.outputs.continue == 'true'
+    needs: get_team_name
+    if: needs.check_date.outputs.continue == 'true'
     outputs:
       project_id: ${{ steps.find_project.outputs.project_id }}
     steps:
@@ -92,10 +92,10 @@ jobs:
           $response = Invoke-WebRequest -Uri "https://api.github.com/graphql" -Method Post -Headers $headers -Body $body
           Write-Host "Projects JSON Output: $($response.Content)"
           
-          $projectID = ($response.Content | ConvertFrom-Json).data.organization.projectsV2.nodes | Where-Object { $_.title -like "*${{ needs.get-team-name.outputs.team }}*" } | Select-Object -First 1 -ExpandProperty id
+          $projectID = ($response.Content | ConvertFrom-Json).data.organization.projectsV2.nodes | Where-Object { $_.title -like "*${{ needs.get_team_name.outputs.team }}*" } | Select-Object -First 1 -ExpandProperty id
           
           if (-not $projectID) {
-              Write-Host "No project found for team ${{ needs.get-team-name.outputs.team }}."
+              Write-Host "No project found for team ${{ needs.get_team_name.outputs.team }}."
               exit 1
           }
           
@@ -105,11 +105,11 @@ jobs:
   # This job fetches the project data using the project ID
   # It does this by querying the GraphQL API for the project data
   # Then sets the project data as an output for the next job
-  get-project-data:
+  get_project_data:
     name: Output GraphQL Query Result
     runs-on: ubuntu-latest
-    needs: get-project-id
-    if: needs.check-date.outputs.continue == 'true'
+    needs: get_project_id
+    if: needs.check_date.outputs.continue == 'true'
     outputs:
       project_data: ${{ steps.output_query.outputs.project_data }}
     steps:
@@ -125,7 +125,7 @@ jobs:
         id: output_query
         shell: pwsh
         env:
-          project_id: ${{ needs.get-project-id.outputs.project_id }}
+          project_id: ${{ needs.get_project_id.outputs.project_id }}
           PAT: ${{ secrets.PAT }}
         run: |
           $PROJECT_ID = $env:project_id
@@ -192,8 +192,8 @@ jobs:
   count_issues:
     name: Count Issues by Column and Assignee
     runs-on: ubuntu-latest
-    needs: get-project-data
-    if: needs.check-date.outputs.continue == 'true'
+    needs: get_project_data
+    if: needs.check_date.outputs.continue == 'true'
     outputs:
       issue_counts: ${{ steps.count_issues.outputs.issue_counts }}
     steps:
@@ -209,7 +209,7 @@ jobs:
         id: count_issues
         shell: pwsh
         env:
-          project_data: ${{ needs.get-project-data.outputs.project_data }}
+          project_data: ${{ needs.get_project_data.outputs.project_data }}
           columns: ${{ env.COLUMNS }}
         run: |
           Write-Host "Starting issue count process"
@@ -263,11 +263,11 @@ jobs:
   # It does this by parsing the issue counts JSON and formatting it into an ASCII table
   # Then sets the ASCII table as an output for the next job
   # Also uploads the ASCII table as an artifact for debugging
-  generate-ascii-table:
+  generate_ascii_table:
     name: Generate ASCII Table
     runs-on: ubuntu-latest
     needs: count_issues
-    if: needs.check-date.outputs.continue == 'true'
+    if: needs.check_date.outputs.continue == 'true'
     outputs:
       ascii_table: ${{ steps.generate_table.outputs.ascii_table }}
     steps:
@@ -354,8 +354,8 @@ jobs:
   send-to-slack:
     name: Send Report to Slack
     runs-on: ubuntu-latest
-    needs: [generate-ascii-table, get-team-name]
-    if: needs.check-date.outputs.continue == 'true'
+    needs: [generate_ascii_table, get_team_name]
+    if: needs.check_date.outputs.continue == 'true'
     steps:
       - name: Download ASCII Table
         uses: actions/download-artifact@v4
@@ -382,7 +382,7 @@ jobs:
           echo "TEAM_TO_CHANNEL: ${{ env.TEAM_TO_CHANNEL }}"
           echo "TEAM: ${{ env.TEAM }}"
           echo "ORG_NAME: ${{ env.ORG_NAME }}"
-          echo "Slack Channel: ${{ fromJSON(env.TEAM_TO_CHANNEL)[needs.get-team-name.outputs.team] }}"
+          echo "Slack Channel: ${{ fromJSON(env.TEAM_TO_CHANNEL)[needs.get_team_name.outputs.team] }}"
           echo "ASCII Table:"
           cat ascii_table_content.txt
       #This step is used to debug the Slack text that will be sent to the Slack channel
@@ -397,7 +397,7 @@ jobs:
         uses: archive/github-actions-slack@v2.9.0
         with:
           slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
-          slack-channel: ${{ fromJSON(env.TEAM_TO_CHANNEL)[needs.get-team-name.outputs.team] }}
+          slack-channel: ${{ fromJSON(env.TEAM_TO_CHANNEL)[needs.get_team_name.outputs.team] }}
           slack-text: |
             📋 *Kanban Board Status* ✔️
             ```
