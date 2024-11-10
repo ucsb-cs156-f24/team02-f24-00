@@ -120,7 +120,7 @@ jobs:
     steps:
       - name: Debugging output
         run: |
-           echo "needs.get_project_id.outputs.project_id=${{ needs.get_project_id.outputs.project_id }}"
+           echo "needs.get_project_id.outputs.projectID=${{ needs.get_project_id.outputs.projectID }}"
       - name: Checkout repository
         uses: actions/checkout@v4
 
