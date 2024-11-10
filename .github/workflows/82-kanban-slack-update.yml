@@ -120,7 +120,7 @@ jobs:
     steps:
       - name: Debugging output
         run: |
-           echo "needs.get_project_id.outputs.projectID=${{ needs.get_project_id.outputs.projectID }}"
+           echo "needs.get_project_id.outputs.project_id=${{ needs.get_project_id.outputs.project_id }}"
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -136,9 +136,9 @@ jobs:
           project_id: ${{ needs.get_project_id.outputs.project_id }}
           PAT: ${{ secrets.PAT }}
         run: |
-          $PROJECT_ID = $env:project_id
+          $PROJECT_ID = $env.project_id
           echo "PROJECT_ID=$PROJECT_ID"
-          $TOKEN = $env:PAT
+          $TOKEN = $env.PAT
           $query = @"
           {
             node(id: "$PROJECT_ID") {
