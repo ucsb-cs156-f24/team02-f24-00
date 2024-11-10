@@ -119,7 +119,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '20'
 
       - name: Output GraphQL Query Result
         id: output_query
@@ -203,7 +203,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '20'
 
       - name: Count Issues by Column and Assignee
         id: count_issues
@@ -272,7 +272,7 @@ jobs:
       ascii_table: ${{ steps.generate_table.outputs.ascii_table }}
     steps:
       - name: Download issue counts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: issue_counts
 
