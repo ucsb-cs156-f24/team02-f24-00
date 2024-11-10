@@ -67,6 +67,10 @@ jobs:
     outputs:
       project_id: ${{ steps.find_project.outputs.project_id }}
     steps:
+      - name: Debugging Output
+        run: |
+          echo "needs.get_team_name.outputs.team=${{needs.get_team_name.outputs.team}}"
+          echo "github.repository_owner=${{ github.repository_owner }}"
       - name: Fetch Project ID
         id: find_project
         shell: pwsh
@@ -100,6 +104,7 @@ jobs:
           }
           
           Write-Host "Found Project ID: $projectID"
+          echo "project_id=${projectID}"
           echo "project_id=${projectID}" >> $GITHUB_OUTPUT
 
   # This job fetches the project data using the project ID
@@ -113,6 +118,9 @@ jobs:
     outputs:
       project_data: ${{ steps.output_query.outputs.project_data }}
     steps:
+      - name: Debugging output
+        run: |
+           echo "needs.get_project_id.outputs.project_id=${{ needs.get_project_id.outputs.project_id }}"
       - name: Checkout repository
         uses: actions/checkout@v4
 
