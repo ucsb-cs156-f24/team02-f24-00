@@ -10,9 +10,9 @@ on:
 
 env:
   PAT: ${{ secrets.PAT }}
-  TEAM_TO_CHANNEL: "{ \"s24-4pm-1\": \"C071HLX6DMK\", \"s24-4pm-2\": \"C06592UPS91\" }"
+  TEAM_TO_CHANNEL: ${{var.TEAM_TO_CHANNEL}}
   TEAM: ${{ github.repository }}
-  ORG_NAME: "brownfield-team"  # Replace with your GitHub organization name
+  ORG_NAME: ${{ github.owner }}
   COLUMNS: "Todo, In Progress, In Review, Done"
   END_DATE: "2024-12-15"  # Set the end date for the workflow
 
@@ -39,7 +39,7 @@ jobs:
           fi
   # This job extracts the team name from the repository name
   # The team name is used to find the project ID for the team
-  # It does this by extracting the last 9 characters of the repository name
+  # It does this by extracting the last 6 characters of the repository name
   # Then sets the team name as an output for the next job
   get-team-name:
     name: Get Team Name 
@@ -53,7 +53,7 @@ jobs:
         id: find_team
         run: |
           REPO=${{ github.repository }}
-          TEAM_NAME="${REPO: -9}"
+          TEAM_NAME="${REPO: -6}"
           echo "::set-output name=team::${TEAM_NAME}"
   # This job finds the project ID for the team based on the team name
   # It finds the last updated project that contains the team name in the title
@@ -112,10 +112,10 @@ jobs:
       project_data: ${{ steps.output_query.outputs.project_data }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '14'
 
@@ -196,10 +196,10 @@ jobs:
       issue_counts: ${{ steps.count_issues.outputs.issue_counts }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '14'
 
@@ -251,7 +251,7 @@ jobs:
           echo "::set-output name=issue_counts::$issueCountsJson"
           Write-Host "Issue count process completed"
       - name: Upload issue counts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: issue_counts
           path: issue_counts.json
@@ -344,7 +344,7 @@ jobs:
           echo "::set-output name=ascii_table::$table"
 
       - name: Upload ASCII Table
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ascii_table
           path: ascii_table.txt
@@ -356,7 +356,7 @@ jobs:
     if: needs.check-date.outputs.continue == 'true'
     steps:
       - name: Download ASCII Table
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ascii_table
 
