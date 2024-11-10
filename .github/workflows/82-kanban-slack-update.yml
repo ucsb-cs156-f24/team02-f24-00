@@ -54,7 +54,8 @@ jobs:
         run: |
           REPO=${{ github.repository }}
           TEAM_NAME="${REPO: -6}"
-          echo "::set-output name=team::${TEAM_NAME}"
+          echo "team=${TEAM_NAME}" >> $GITHUB_OUTPUT
+          
   # This job finds the project ID for the team based on the team name
   # It finds the last updated project that contains the team name in the title
   # Then sets the project ID as an output for the next job
@@ -99,7 +100,8 @@ jobs:
           }
           
           Write-Host "Found Project ID: $projectID"
-          echo "::set-output name=project_id::$projectID"
+          echo "project_id=${projectID}" >> $GITHUB_OUTPUT
+
   # This job fetches the project data using the project ID
   # It does this by querying the GraphQL API for the project data
   # Then sets the project data as an output for the next job
@@ -186,7 +188,7 @@ jobs:
           $body = @{ query = $query } | ConvertTo-Json
           $response = Invoke-WebRequest -Uri "https://api.github.com/graphql" -Method Post -Headers $headers -Body $body
           Write-Host $response.Content
-          echo "::set-output name=project_data::$($response.Content)"
+          echo "project_data=$($response.Content)" >> $GITHUB_OUTPUT
   count_issues:
     name: Count Issues by Column and Assignee
     runs-on: ubuntu-latest
@@ -248,7 +250,7 @@ jobs:
           $issueCountsJson = $issueCounts | ConvertTo-Json -Depth 10
           Write-Host "Issue Counts JSON: $issueCountsJson"  # Debugging: Output the issue counts JSON
           $issueCountsJson | Out-File issue_counts.json
-          echo "::set-output name=issue_counts::$issueCountsJson"
+          echo "issue_counts=${issueCountsJson}" >> $GITHUB_OUTPUT
           Write-Host "Issue count process completed"
       - name: Upload issue counts
         uses: actions/upload-artifact@v4
@@ -341,7 +343,7 @@ jobs:
 
           Write-Host "ASCII Table:`n$table"
           $table | Out-File ascii_table.txt
-          echo "::set-output name=ascii_table::$table"
+          echo "ascii_table=${table}" >> $GITHUB_OUTPUT
 
       - name: Upload ASCII Table
         uses: actions/upload-artifact@v4
