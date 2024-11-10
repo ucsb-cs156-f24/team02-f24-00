@@ -10,7 +10,7 @@ on:
 
 env:
   PAT: ${{ secrets.PAT }}
-  TEAM_TO_CHANNEL: ${{var.TEAM_TO_CHANNEL}}
+  TEAM_TO_CHANNEL: ${{vars.TEAM_TO_CHANNEL}}
   TEAM: ${{ github.repository }}
   ORG_NAME: ${{ github.owner }}
   COLUMNS: "Todo, In Progress, In Review, Done"
