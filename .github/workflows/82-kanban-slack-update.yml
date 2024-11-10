@@ -12,7 +12,7 @@ env:
   PAT: ${{ secrets.PAT }}
   TEAM_TO_CHANNEL: ${{vars.TEAM_TO_CHANNEL}}
   TEAM: ${{ github.repository }}
-  ORG_NAME: $GITHUB_REPOSITORY_OWNER
+  ORG_NAME: ${{ github.repository_owner }}
   COLUMNS: "Todo, In Progress, In Review, Done"
   END_DATE: "2024-12-15"  # Set the end date for the workflow
 
