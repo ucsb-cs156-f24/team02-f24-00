@@ -1,16 +1,7 @@
 name: Kanban Slack Update
 
-# Instructions to set up the workflow
-#  1. Copy the workflow file to your repository in the .github/workflows directory.
-#  2. Create a personal access token called PAT and add it in the organization secrets with the name PAT.
-#  3. Create a Slack bot user and add the OAuth access token in the organization secrets with the name SLACK_BOT_USER_OAUTH_ACCESS_TOKEN.
-#  4. Update the TEAM_TO_CHANNEL environment variable with the mapping of team names to Slack channel IDs.
-#  5. Update the ORG_NAME environment variable with your GitHub organization name.
-#  6. Update the END_DATE environment variable with the end date for the workflow to stop running the workflow forever.
-#  7. Update the COLUMNS environment variable with the column names in your project board.
-#  8. Update the branch name in the on section to match the branch you want to trigger the workflow on.
-#  9. Commit the changes to the main branch to trigger the workflow.
-# 10. The workflow will run and post the Kanban board status to the Slack channel associated with the team name.
+# Instructions to set up the workflow can be found here:
+# <https://ucsb-cs156.github.io/topics/github_actions/workflow_82.html>
 
 on:
   schedule:
