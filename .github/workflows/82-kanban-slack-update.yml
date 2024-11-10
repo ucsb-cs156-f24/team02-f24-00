@@ -104,8 +104,9 @@ jobs:
           }
           
           Write-Host "Found Project ID: $projectID"
-          echo "projectID=${projectID}"
-          echo "projectID=${projectID}" >> $GITHUB_OUTPUT
+          echo "projectID=$projectID"
+          echo "projectID=$projectID" >> $GITHUB_OUTPUT
+          echo GITHUB_OUTPUT=$GITHUB_OUTPUT
 
   # This job fetches the project data using the project ID
   # It does this by querying the GraphQL API for the project data
