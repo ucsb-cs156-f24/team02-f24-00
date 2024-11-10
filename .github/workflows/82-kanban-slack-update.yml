@@ -65,7 +65,7 @@ jobs:
     needs: get_team_name
     if: needs.check_date.outputs.continue == 'true'
     outputs:
-      project_id: ${{ steps.find_project.outputs.projectID }}
+      projectID: ${{ steps.find_project.outputs.projectID }}
     steps:
       - name: Debugging Output
         run: |
