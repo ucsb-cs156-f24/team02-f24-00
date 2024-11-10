@@ -32,10 +32,10 @@ jobs:
           end_date="${{ env.END_DATE }}"
           if [[ "$current_date" > "$end_date" ]]; then
             echo "Current date is after $end_date. Stopping workflow."
-            echo "::set-output name=continue::false"
+            echo "{continue}={false}" >> $GITHUB_OUTPUT
           else
             echo "Current date is before $end_date. Continuing workflow."
-            echo "::set-output name=continue::true"
+            echo "{continue}={true}" >> $GITHUB_OUTPUT
           fi
   # This job extracts the team name from the repository name
   # The team name is used to find the project ID for the team
