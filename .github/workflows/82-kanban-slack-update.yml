@@ -73,7 +73,7 @@ jobs:
         run: |
           $query = @"
           {
-            organization(login: "${{ env.ORG_NAME }}") {
+            organization(login: "${{ github.repository_owner }}") {
               projectsV2(first: 100) {
                 nodes {
                   id
