@@ -65,7 +65,7 @@ jobs:
     needs: get_team_name
     if: needs.check_date.outputs.continue == 'true'
     outputs:
-      projectID: ${{ steps.find_project.outputs.projectID }}
+      project_id: ${{ steps.find_project.outputs.project_id }}
     steps:
       - name: Debugging Output
         run: |
@@ -104,9 +104,8 @@ jobs:
           }
           
           Write-Host "Found Project ID: $projectID"
-          echo "projectID=$projectID"
-          echo "projectID=$projectID" >> $GITHUB_OUTPUT
-          echo GITHUB_OUTPUT=$GITHUB_OUTPUT
+          echo "project_id=$projectID"
+          echo "project_id=$projectID" >> $GITHUB_OUTPUT
 
   # This job fetches the project data using the project ID
   # It does this by querying the GraphQL API for the project data
@@ -134,7 +133,7 @@ jobs:
         id: output_query
         shell: pwsh
         env:
-          project_id: ${{ needs.get_project_id.outputs.projectID }}
+          project_id: ${{ needs.get_project_id.outputs.project_id }}
           PAT: ${{ secrets.PAT }}
         run: |
           $PROJECT_ID = $env:project_id
