@@ -252,6 +252,8 @@ jobs:
         with:
           name: issue_counts
           path: issue_counts.json
+          overwrite: true
+
 
 
   # This job generates an ASCII table from the issue counts
@@ -345,6 +347,8 @@ jobs:
         with:
           name: ascii_table
           path: ascii_table.txt
+          overwrite: true
+
 
   send-to-slack:
     name: Send Report to Slack
