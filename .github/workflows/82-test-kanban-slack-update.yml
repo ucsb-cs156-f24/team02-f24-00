@@ -296,7 +296,7 @@ jobs:
           }
 
           # Generate the table header with left-aligned text
-          $header = "| login             |"
+          $header = "| login            |"
           $header += " Todo |"
           $header += " In P |"
           $header += " In R |"
@@ -305,7 +305,7 @@ jobs:
           # Define the separator with exact dash counts for each column
           $separator = "|------------------|"
           foreach ($width in $columnWidths[1..$columnWidths.Length]) {
-            $separator += "---|"
+            $separator += "------|"
           }
 
           # Construct the full table
