@@ -274,11 +274,11 @@ jobs:
           $issueCounts = $issueCounts | ConvertFrom-Json
 
           # Collect all assignees
-          $assignees = @{}
+          $assignees = @{ }
           foreach ($column in $issueCounts.PSObject.Properties.Name) {
             foreach ($assignee in $issueCounts.$column.PSObject.Properties.Name) {
               if (-not $assignees.ContainsKey($assignee)) {
-                $assignees[$assignee] = @{}
+                $assignees[$assignee] = @{ }
               }
               $assignees[$assignee][$column] = $issueCounts.$column.$assignee
             }
@@ -286,29 +286,25 @@ jobs:
 
           # Define the column names and fixed widths
           $columns = $env:columns -split ", "
-          $columnWidths = @(20, 20, 20, 20)  # Fixed widths for each column
+          $columnWidths = @(18, 3, 3, 3, 3)  # Fixed widths for each column
 
-          # Center the text within each cell with manual adjustments
-          function CenterText($text, $width, $adjustment = 0) {
+          # Left align the text within each cell with manual adjustments
+          function LeftAlignText($text, $width) {
             $text = [string]$text  # Ensure $text is treated as a string
-            $padding = [math]::Max(0, ($width - $text.Length + $adjustment) / 2)
-            $leftPadding = " " * [math]::Floor($padding)
-            $rightPadding = " " * [math]::Ceiling($padding)
-            return $leftPadding + $text + $rightPadding
+            $padding = " " * [math]::Max(0, $width - $text.Length)
+            return $text + $padding
           }
 
-          # Generate the table header with centered text
-          $header = "|"
-          $columns = $env:columns -split ", "
-          $header += " " + (CenterText $columns[0] 18) + " |"
-          $header += " " + (CenterText $columns[1] 18) + "|"
-          $header += " " + (CenterText $columns[2] 18) + "  |"
-          $header += " " + (CenterText $columns[3] 18) + " |"
+          # Generate the table header with left-aligned text
+          $header = "| login            |"
+          foreach ($column in $columns) {
+            $header += " " + $column.Substring(0, 4) + " |"
+          }
 
           # Define the separator with exact dash counts for each column
-          $separator = "|"
-          foreach ($width in $columnWidths) {
-            $separator += " " + ("-" * ($width - 2)) + " |"  # Adjusting for padding
+          $separator = "|------------------|"
+          foreach ($width in $columnWidths[1..$columnWidths.Length]) {
+            $separator += "------|"
           }
 
           # Construct the full table
@@ -316,11 +312,11 @@ jobs:
 
           # Generate the table rows
           foreach ($assignee in $assignees.Keys) {
-            $row = "|"
+            $row = "| " + (LeftAlignText $assignee 17) + "|"
             foreach ($column in $columns) {
-              $count = if ($assignees[$assignee].ContainsKey($column)) { "${assignee}: $($assignees[$assignee][$column])" } else { "${assignee}: 0" }
-              $centeredCount = CenterText $count ($columnWidths[0] - 2)  # Adjusting for padding
-              $row += " $centeredCount |"
+              $count = if ($assignees[$assignee].ContainsKey($column)) { "$($assignees[$assignee][$column])" } else { "0" }
+              $leftAlignedCount = "   " + (LeftAlignText $count 2)  # Adding 3 spaces before the value
+              $row += " $leftAlignedCount|"
             }
             $table += "$row`n"
           }
