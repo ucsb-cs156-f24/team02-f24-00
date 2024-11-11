@@ -126,16 +126,19 @@ jobs:
     if: needs.check_date.outputs.continue == 'true'
     outputs:
       project_data: ${{ steps.output_query.outputs.project_data }}
+      project_id: ${{ steps.get_project_id_from_file.outputs.project_id }}
     steps:
       - name: Download project_id
         uses: actions/download-artifact@v4
         with:
           name: project_id
     
-      - name: Debugging output
+      - name: Get project id from file
+        id: get_project_id_from_file
         run: |
-           echo "needs.get_project_id.outputs.project_id=${{ needs.get_project_id.outputs.project_id }}"
-           cat project_id.txt
+           echo project_id=`cat project_id.txt` 
+           echo project_id=`cat project_id.txt` >> $GITHUB_OUTPUT
+           
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -149,10 +152,10 @@ jobs:
         shell: pwsh
         env:
           PAT: ${{ secrets.PAT }}
+          PROJECT_ID: ${{ steps.get_project_id_from_file.outputs.project_id }}
         run: |
-          PROJECT_ID=`cat project_id.txt`
-          echo "PROJECT_ID=$PROJECT_ID"
-          $TOKEN = $env.PAT
+          $PROJECT_ID = $env:PROJECT_ID
+          $TOKEN = $env:PAT
           $query = @"
           {
             node(id: "$PROJECT_ID") {
