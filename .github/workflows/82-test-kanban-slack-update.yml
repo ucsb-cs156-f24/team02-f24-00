@@ -304,7 +304,7 @@ jobs:
           # Define the separator with exact dash counts for each column
           $separator = "|------------------|"
           foreach ($width in $columnWidths[1..$columnWidths.Length]) {
-            $separator += "---|"
+            $separator += "------|"
           }
 
           # Construct the full table
