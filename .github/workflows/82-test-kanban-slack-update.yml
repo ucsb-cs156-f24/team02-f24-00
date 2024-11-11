@@ -286,28 +286,26 @@ jobs:
 
           # Define the column names and fixed widths
           $columns = $env:columns -split ", "
-          $columnWidths = @(20, 5, 5, 5, 5)  # Fixed widths for each column
+          $columnWidths = @(18, 3, 3, 3, 3)  # Fixed widths for each column
 
-          # Center the text within each cell with manual adjustments
-          function CenterText($text, $width, $adjustment = 0) {
+          # Left align the text within each cell with manual adjustments
+          function LeftAlignText($text, $width) {
             $text = [string]$text  # Ensure $text is treated as a string
-            $padding = [math]::Max(0, ($width - $text.Length + $adjustment) / 2)
-            $leftPadding = " " * [math]::Floor($padding)
-            $rightPadding = " " * [math]::Ceiling($padding)
-            return $leftPadding + $text + $rightPadding
+            $padding = " " * [math]::Max(0, $width - $text.Length)
+            return $text + $padding
           }
 
-          # Generate the table header with centered text
+          # Generate the table header with left-aligned text
           $header = "| login             |"
-          $header += " " + (CenterText "Todo" 3) + " |"
-          $header += " " + (CenterText "In P" 3) + " |"
-          $header += " " + (CenterText "In R" 3) + " |"
-          $header += " " + (CenterText "Done" 3) + " |"
+          $header += " Todo |"
+          $header += " In P |"
+          $header += " In R |"
+          $header += " Done |"
 
           # Define the separator with exact dash counts for each column
-          $separator = "|"
-          foreach ($width in $columnWidths) {
-            $separator += " " + ("-" * ($width - 2)) + " |"  # Adjusting for padding
+          $separator = "|------------------|"
+          foreach ($width in $columnWidths[1..$columnWidths.Length]) {
+            $separator += "---|"
           }
 
           # Construct the full table
@@ -315,11 +313,11 @@ jobs:
 
           # Generate the table rows
           foreach ($assignee in $assignees.Keys) {
-            $row = "| " + (CenterText $assignee 18) + " |"
+            $row = "| " + (LeftAlignText $assignee 17) + "|"
             foreach ($column in $columns) {
               $count = if ($assignees[$assignee].ContainsKey($column)) { "$($assignees[$assignee][$column])" } else { "0" }
-              $centeredCount = CenterText $count 3  # Adjusting for padding
-              $row += " $centeredCount |"
+              $leftAlignedCount = LeftAlignText $count 2  # Adjusting for padding
+              $row += " $leftAlignedCount|"
             }
             $table += "$row`n"
           }
