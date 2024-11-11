@@ -68,6 +68,9 @@ jobs:
       project_id: ${{ steps.find_project.outputs.project_id }}
       project_data: ${{ steps.output_query.outputs.project_data }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Debugging Output
         run: |
           echo "needs.get_team_name.outputs.team=${{needs.get_team_name.outputs.team}}"
@@ -109,15 +112,8 @@ jobs:
           echo $projectID >> project_id.txt
           ls project_id.txt
           cat project_id.txt
+          pwd
        
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
       - name: Output GraphQL Query Result
         id: output_query
         shell: pwsh
@@ -125,6 +121,7 @@ jobs:
           PAT: ${{ secrets.PAT }}
           PROJECT_ID: ${{ steps.get_project_id_from_file.outputs.project_id }}
         run: |
+          dir
           $PROJECT_ID = ( Get-Content -Path project_id.txt )
           $TOKEN = $env:PAT
           $query = @"
