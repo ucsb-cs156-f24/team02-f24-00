@@ -107,6 +107,8 @@ jobs:
           Write-Host "Found Project ID: $projectID"
           echo "project_id=$projectID"
           echo $projectID >> project_id.txt
+          ls project_id.txt
+          cat project_id.txt
        
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -123,7 +125,7 @@ jobs:
           PAT: ${{ secrets.PAT }}
           PROJECT_ID: ${{ steps.get_project_id_from_file.outputs.project_id }}
         run: |
-          $PROJECT_ID = ( Get-Content -Path "project_id.txt" )
+          $PROJECT_ID = ( Get-Content -Path project_id.txt )
           $TOKEN = $env:PAT
           $query = @"
           {
