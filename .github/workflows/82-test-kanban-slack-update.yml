@@ -376,13 +376,13 @@ jobs:
           printf "📋 *Kanban Board Status* ✔️\n"
           printf '```\n%s\n```\n' "$table"
       #This step sends the report to the Slack channel associated with the team
-    #   - name: Send Report to Slack
-    #     uses: archive/github-actions-slack@v2.9.0
-    #     with:
-    #       slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
-    #       slack-channel: ${{ fromJSON(env.TEAM_TO_CHANNEL)[needs.get_team_name.outputs.team] }}
-    #       slack-text: |
-    #         📋 *Kanban Board Status* ✔️
-    #         ```
-    #         ${{ env.ascii_table_content }}
-    #         ```
+      - name: Send Report to Slack
+        uses: archive/github-actions-slack@v2.9.0
+        with:
+          slack-bot-user-oauth-access-token: ${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}
+          slack-channel: ${{ fromJSON(env.TEAM_TO_CHANNEL)[needs.get_team_name.outputs.team] }}
+          slack-text: |
+            📋 *Kanban Board Status* ✔️
+            ```
+            ${{ env.ascii_table_content }}
+            ```
