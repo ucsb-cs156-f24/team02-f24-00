@@ -14,7 +14,7 @@ env:
   TEAM: ${{ github.repository }}
   ORG_NAME: ${{ github.repository_owner }}
   COLUMNS: "Todo, In Progress, In Review, Done"
-  END_DATE: "2024-12-15"  # Set the end date for the workflow
+  END_DATE: "2024-11-13"  # Set the end date for the workflow
 
 jobs:
 
@@ -37,7 +37,18 @@ jobs:
             echo "Current date is before $end_date. Continuing workflow."
             echo "continue=true" >> "$GITHUB_OUTPUT"
           fi
-  # This job extracts the team name from the repository name
+          REPO=${{ github.repository }}
+          PREFIX="${REPO: 7}"
+          echo "prefix=${PREFIX}" >> "$GITHUB_OUTPUT"
+          if [[ "$PREFIX" == "STARTER" ]]; then
+            echo "This workflow should not run on a starter repository"
+            echo "continue=false" >> "$GITHUB_OUTPUT"
+          fi
+          if [[ -f "$GITHUB_OUTPUT" ]]; then
+            echo "Contents of $GITHUB_OUTPUT:"
+            cat "$GITHUB_OUTPUT"
+          fi
+# This job extracts the team name from the repository name
   # The team name is used to find the project ID for the team
   # It does this by extracting the last 6 characters of the repository name
   # Then sets the team name as an output for the next job
@@ -315,8 +326,8 @@ jobs:
             $row = "| " + (LeftAlignText $assignee 17) + "|"
             foreach ($column in $columns) {
               $count = if ($assignees[$assignee].ContainsKey($column)) { "$($assignees[$assignee][$column])" } else { "0" }
-              $leftAlignedCount = "   " + (LeftAlignText $count 2)  # Adding 3 spaces before the value
-              $row += " $leftAlignedCount|"
+              $leftAlignedCount = printf "%-4s" $count
+              $row += " $leftAlignedCount |"
             }
             $table += "$row`n"
           }
@@ -361,7 +372,6 @@ jobs:
       #The ASCII table content is also printed for debugging purposes
       - name: Debug Environment Variables
         run: |
-          echo "access_token=${{ secrets.SLACK_BOT_USER_OAUTH_ACCESS_TOKEN }}"
           echo "TEAM_TO_CHANNEL: ${{ env.TEAM_TO_CHANNEL }}"
           echo "TEAM: ${{ env.TEAM }}"
           echo "ORG_NAME: ${{ env.ORG_NAME }}"
