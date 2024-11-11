@@ -106,6 +106,15 @@ jobs:
           Write-Host "Found Project ID: $projectID"
           echo "project_id=$projectID"
           echo "project_id=$projectID" >> "$GITHUB_OUTPUT"
+      - name: Write Project Id to file
+        run: |
+           echo ${{ steps.find_project.outputs.project_id }} >> project_id.txt
+           cat project_id.txt
+      - name: Write project id to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: project_id
+          path: project_id.txt  
 
   # This job fetches the project data using the project ID
   # It does this by querying the GraphQL API for the project data
@@ -118,9 +127,15 @@ jobs:
     outputs:
       project_data: ${{ steps.output_query.outputs.project_data }}
     steps:
+      - name: Download project_id
+        uses: actions/download-artifact@v4
+        with:
+          name: project_id
+    
       - name: Debugging output
         run: |
            echo "needs.get_project_id.outputs.project_id=${{ needs.get_project_id.outputs.project_id }}"
+           cat project_id.txt
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -133,10 +148,9 @@ jobs:
         id: output_query
         shell: pwsh
         env:
-          project_id: ${{ needs.get_project_id.outputs.project_id }}
           PAT: ${{ secrets.PAT }}
         run: |
-          $PROJECT_ID = $env.project_id
+          PROJECT_ID=`cat project_id.txt`
           echo "PROJECT_ID=$PROJECT_ID"
           $TOKEN = $env.PAT
           $query = @"
