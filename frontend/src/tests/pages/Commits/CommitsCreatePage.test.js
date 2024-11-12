@@ -38,7 +38,6 @@ describe("CommitsCreatePage tests", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-
     axiosMock.reset();
     axiosMock.resetHistory();
     axiosMock
@@ -76,7 +75,6 @@ describe("CommitsCreatePage tests", () => {
     };
 
     axiosMock.onPost("/api/commits/post").reply(202, commit);
-
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -135,6 +133,5 @@ describe("CommitsCreatePage tests", () => {
       "New commit Created - id: 7 message: pc - updated tests for blah controller",
     );
     expect(mockNavigate).toHaveBeenCalledWith({ to: "/commits" });
-
   });
 });

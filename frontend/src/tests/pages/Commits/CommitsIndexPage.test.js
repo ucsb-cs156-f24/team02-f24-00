@@ -25,7 +25,6 @@ describe("CommitIndexPage tests", () => {
 
   const testId = "CommitTable";
 
-
   const setupUserOnly = () => {
     axiosMock.reset();
     axiosMock.resetHistory();
@@ -151,7 +150,6 @@ describe("CommitIndexPage tests", () => {
       .onDelete("/api/commits")
       .reply(200, "Commit with id 1 was deleted");
 
-
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
@@ -186,6 +184,5 @@ describe("CommitIndexPage tests", () => {
     });
     expect(axiosMock.history.delete[0].url).toBe("/api/commits");
     expect(axiosMock.history.delete[0].params).toEqual({ id: 1 });
-
   });
 });
