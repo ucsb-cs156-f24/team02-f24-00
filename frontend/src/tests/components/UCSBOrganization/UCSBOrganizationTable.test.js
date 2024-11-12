@@ -38,7 +38,7 @@ describe("UCSBOrganizationTable tests", () => {
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <UCSBOrganizationTable
-            ucsborganizations={[]}
+            ucsborganization={[]}
             currentUser={currentUser}
           />
         </MemoryRouter>
@@ -68,7 +68,7 @@ describe("UCSBOrganizationTable tests", () => {
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <UCSBOrganizationTable
-            ucsborganizations={ucsbOrganizationFixtures.threeOrganizations}
+            ucsborganization={ucsbOrganizationFixtures.threeOrganizations}
             currentUser={currentUser}
           />
         </MemoryRouter>
@@ -122,7 +122,7 @@ describe("UCSBOrganizationTable tests", () => {
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <UCSBOrganizationTable
-            ucsborganizations={ucsbOrganizationFixtures.threeOrganizations}
+            ucsborganization={ucsbOrganizationFixtures.threeOrganizations}
             currentUser={currentUser}
           />
         </MemoryRouter>
@@ -173,7 +173,7 @@ describe("UCSBOrganizationTable tests", () => {
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <UCSBOrganizationTable
-            ucsborganizations={ucsbOrganizationFixtures.threeOrganizations}
+            ucsborganization={ucsbOrganizationFixtures.threeOrganizations}
             currentUser={currentUser}
           />
         </MemoryRouter>
@@ -205,7 +205,7 @@ describe("UCSBOrganizationTable tests", () => {
     // assert - check that the navigate function was called with the expected path
     await waitFor(() =>
       expect(mockedNavigate).toHaveBeenCalledWith(
-        "/ucsborganizations/edit/ZBZ",
+        "/ucsborganization/edit/ZBZ",
       ),
     );
   });
@@ -219,7 +219,7 @@ describe("UCSBOrganizationTable tests", () => {
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <UCSBOrganizationTable
-            ucsborganizations={ucsbOrganizationFixtures.threeOrganizations}
+            ucsborganization={ucsbOrganizationFixtures.threeOrganizations}
             currentUser={currentUser}
           />
         </MemoryRouter>
