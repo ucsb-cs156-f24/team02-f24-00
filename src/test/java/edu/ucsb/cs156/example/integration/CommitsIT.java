@@ -47,7 +47,7 @@ public class CommitsIT {
         public GrantedAuthoritiesService grantedAuthoritiesService;
 
         @Autowired
-        CommitRepository commitRepsitory;
+        CommitRepository commitRepository;
 
         @Autowired
         public MockMvc mockMvc;
@@ -73,7 +73,7 @@ public class CommitsIT {
                                 .commitTime(zdt1)
                                 .build();
 
-                commitRepsitory.save(commit1);
+                commitRepository.save(commit1);
 
                 // act
                 MvcResult response = mockMvc.perform(get("/api/commits?id=1"))
