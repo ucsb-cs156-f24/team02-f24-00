@@ -3,18 +3,20 @@ name: "82-kanban-slack-update.yml"
 # Instructions to set up the workflow can be found here:
 # <https://ucsb-cs156.github.io/topics/github_actions/workflow_82.html>
 
-on:
-  schedule:
-    - cron: "0 17 * * *"  # Run at 9:00 AM PST / 5:00 PM UTC
-  workflow_dispatch:  # Allows manual triggering
-
 env:
   PAT: ${{ secrets.PAT }}
+  CRON: "0 17 15 * *"  # Run at 9:00 AM PST / 5:00 PM UTC
   TEAM_TO_CHANNEL: ${{vars.TEAM_TO_CHANNEL}}
   TEAM: ${{ github.repository }}
   ORG_NAME: ${{ github.repository_owner }}
   COLUMNS: "Todo, In Progress, In Review, Done"
   END_DATE: "2024-11-13"  # Set the end date for the workflow
+
+on:
+  schedule:
+    - cron: ${{ env.CRON }} 
+  workflow_dispatch:  # Allows manual triggering
+
 
 jobs:
 
