@@ -5,7 +5,6 @@ name: "82-kanban-slack-update.yml"
 
 env:
   PAT: ${{ secrets.PAT }}
-  CRON: "0 17 15 * *"  # Run at 9:00 AM PST / 5:00 PM UTC
   TEAM_TO_CHANNEL: ${{vars.TEAM_TO_CHANNEL}}
   TEAM: ${{ github.repository }}
   ORG_NAME: ${{ github.repository_owner }}
@@ -14,7 +13,7 @@ env:
 
 on:
   schedule:
-    - cron: ${{ env.CRON }} 
+    - cron: "0 17 15 * *"  # Run at 9:00 AM PST / 5:00 PM UTC
   workflow_dispatch:  # Allows manual triggering
 
 
